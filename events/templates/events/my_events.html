@@ -1,0 +1,11 @@
+{% extends 'events/base.html' %}
+{%block content%}
+<center>
+    <h2>My events</h2>
+    
+    
+{%for event in events%}
+<li>{{event}} at {{event.venue}} | {{event.event_date}}<br>
+{%endfor%}    
+    </center>
+{%endblock%}    

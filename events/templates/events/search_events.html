@@ -1,0 +1,54 @@
+{% extends 'events/base.html' %}
+{%block content%}
+    <br><br>
+<div class="card">
+    <div class="card-body">
+    <form class="d-flex" role="search" method="POST" action="{% url 'search_events' %}">
+        {% csrf_token%}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searched">
+        <button class="btn btn-outline-secondary" type="submit">Search</button>
+      </form>
+      <div>
+    </div>
+    {%if searched %}
+    
+    <h3>You searched for :<em>{{searched}}</em></h3>
+    {%for event in events%}
+    {{event.name}}
+    {{event.event_date}}
+    {{event.venue}}<br>
+    <a href="{% url 'show_venue' event.id %}">Click here for more Details.</a><br><br>
+    {%endfor%}
+    {%else%}
+    <h1>didnt searched anything</h1>
+{%endif%}    
+</div>
+</div> 
+{%if events%}
+<h1>Events</h1>
+{% for event in events %}
+<div class="card">
+    <div class="card-header">
+{{event}}      
+    </div>
+    <div class="card-body">
+    Venue:{{event.venue}}
+    <h5 class="card-title"></h5>
+      <p class="card-text"> <ul>
+        <li>Date:{{event.event_date}}</li>
+        <li>Venue Website:{{event.venue.web}}
+        <li>Manager:{{event.manager}}</li>
+        <li>Description:{{event.description}}</li>
+        <li>Attendees:<br>
+         {%for user in event.attendees.all%}
+        {{user}}
+        {%endfor%}
+        </li>
+</p>
+    </div>
+  
+  {%endfor%} 
+  {%else%}
+  <h3>No events named <em>{{searched}}</em></h3>
+  {%endif%}
+{%endblock%}    
